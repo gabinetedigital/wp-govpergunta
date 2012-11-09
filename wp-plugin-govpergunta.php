@@ -154,7 +154,7 @@ $meta_boxes_govpergunta[] = array(
 				),				
 				array(
 					'name' => 'Contribuiçao Relacionada',
-					'id'   => $prefix.'contribuicao_relacinada',
+					'id'   => $prefix.'contribuicao_relacionada',
 					'type' => 'select',
 					'options' => $combo_contrib,
 					'multiple' => false,
@@ -186,27 +186,6 @@ function wp_govpergunta_register_meta_boxes()
 add_action( 'admin_init', 'wp_govpergunta_register_meta_boxes' );
 
 
-add_filter('xmlrpc_methods', 'wp_govescuta_xmlrpc_methods');
-
-function wp_govpergunta_xmlrpc_methods($methods)
-{
-	//declarar array de metodos
-	//$methods[<chamada do metodo pelo rpc>] = <metodo que deve ser executado>;
-	$methods['wp_govpergunta_lista_contribs'] 	= 'wp_govpergunta_lista_contribs';
-
-	return $methods;
-}
-
-function wp_govpergunta_lista_contribs($args)
-{
-	$username	= $args[0];
-	$password	= $args[1];
-	
-	global $wp_xmlrpc_server;
-	
-	
-	
-}
-
+include_once('wp-govpergunta-xmlrpc.php');
 
 ?>
