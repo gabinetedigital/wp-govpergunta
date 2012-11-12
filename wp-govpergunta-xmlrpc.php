@@ -90,11 +90,9 @@ function wp_govpergunta_get_Contribuicoes($args){
     $ret = array();
     foreach ($listing as $c) {
 		
-		// tema
-		//$c["category"] = "";
-		//foreach((get_the_category($c["ID"])) as $category) {
-		//	$c["category"] = $category->cat_ID; 
-		//} 
+		if ($c["contrib_".WPGOVP_TYPE_POST_campo1]){
+    		$c["contrib_foto"] = wp_get_attachment_url( $c["contrib_".WPGOVP_TYPE_POST_campo1] ); 
+		}
 		
 		$ret[] = $c;
     }
