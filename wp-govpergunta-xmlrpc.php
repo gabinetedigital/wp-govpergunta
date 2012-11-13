@@ -5,16 +5,9 @@ define('WPGOVP_TYPE_POST_campo1','_thumbnail_id');
 define('WPGOVP_TYPE_POST_campo2','wp_govpergunta_score');
 define('WPGOVP_TYPE_POST_campo3','wp_govpergunta_contribuicao_relacionada');
 define('WPGOVP_TYPE_POST_campo4','wp_govpergunta_resposta_govpergunta');
+define('WPGOVP_TYPE_POST_campo5','wp_govpergunta_cidade');
 
 define('WPGOVP_RESULTS_PER_PAGE', 10);
-
-function WPGOVP_log($io, $msg){
-	$fp = fopen("/var/www/wordpress/log/xmlrpc.log","a+");
-	$date = gmdate("Y-m-d H:i:s ");
-	$iot = ($io == "I") ? " Input: " : " Output: ";
-	fwrite($fp, "\n\n".$date.$iot.$msg);
-	fclose($fp);
-}
 
 function wp_govpergunta_get_Contribuicoes($args){
 
@@ -63,7 +56,8 @@ function wp_govpergunta_get_Contribuicoes($args){
         					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo1."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo1.", 
         					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo2."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo2.",  
         					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo3."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo3.",
-        					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo4."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo4."
+        					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo4."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo4.",
+        					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo5."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo5."
 						FROM    
 							wp_posts p 
         					left join wp_postmeta m on p.id = m.post_id 
@@ -80,7 +74,6 @@ function wp_govpergunta_get_Contribuicoes($args){
 					by 	$sortfield $order";
     
     $sql = $wpdb->prepare($sql . " LIMIT %d, %d", array($offset, $perpage));
-    WPGOVP_log("O", $sql);
     //$sql = $wpdb->prepare($sql);
     $listing = $wpdb->get_results($sql, ARRAY_A);
     
@@ -92,6 +85,16 @@ function wp_govpergunta_get_Contribuicoes($args){
 		
 		if ($c["contrib_".WPGOVP_TYPE_POST_campo1]){
     		$c["contrib_foto"] = wp_get_attachment_url( $c["contrib_".WPGOVP_TYPE_POST_campo1] ); 
+		}
+		
+		$c["categoria"] = "";
+		foreach((get_the_category($c["ID"])) as $category) {
+			$c["categoria"] = $category->cat_name; 
+		} 
+		
+		$c["tema"] = "";
+		foreach((get_the_terms($c["ID"], 'tema_govpergunta')) as $tema) {
+			$c["tema"] = $tema->name; 
 		}
 		
 		$ret[] = $c;
