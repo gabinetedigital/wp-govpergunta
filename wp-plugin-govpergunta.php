@@ -161,6 +161,12 @@ $meta_boxes_govpergunta[] = array(
 					'std'  => array( 'PRINCIPAL' )					
 				),
 				array(
+						'name' 		=> 'Cidade',
+						'id' 		=> $prefix . 'cidade',
+						'type'	 	=> 'text',
+						'desc'		=> 'Cidade'
+				),
+				array(
 						'name' 		=> 'Resposta do Governador',
 						'id' 		=> $prefix . 'resposta_govpergunta',
 						'type'	 	=> 'wysiwyg',
