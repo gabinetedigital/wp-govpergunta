@@ -21,6 +21,10 @@ function wp_govpergunta_get_Contribuicoes($args){
 	$perpage = $args[3]["perpage"] ? $args[3]["perpage"] : '10000';
 	$totalporpage = $args[3]["totalporpage"] ? $args[3]["totalporpage"] : WPGOVP_RESULTS_PER_PAGE; // paginacao
 	$filterprincipal = $args[3]["principal"] ? $args[3]["principal"] : NULL;
+	$filtercategory  = $args[3]["category"] ? $args[3]["category"] : NULL;
+	$filterterm      = $args[3]["tema"] ? $args[3]["tema"] : NULL;
+	
+	
 
 	$sortfields = array('date' => 'contrib_'.WPGOVP_TYPE_POST_campo2.' ');
 	
@@ -42,7 +46,31 @@ function wp_govpergunta_get_Contribuicoes($args){
 		}
 	}
 
-
+	if($filtercategory){
+		$filtercategoria = "and	ID in (
+                            select  tr.object_id
+                            from    wp_terms t
+                                    inner join wp_term_taxonomy tt on t.term_id = tt.term_id
+                                    inner join wp_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id 
+                            where   t.slug = ". $filtercategory ." 
+                            and     tr.object_id  =  x.ID
+                            and     tt.taxonomy = 'category'
+                          ) ";	
+	}
+	
+	
+	if($filterterm){
+		$filtertema = "and	ID in (
+                            select  tr.object_id
+                            from    wp_terms t
+                                    inner join wp_term_taxonomy tt on t.term_id = tt.term_id
+                                    inner join wp_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id 
+                            where   t.slug = ". $filterterm ." 
+                            and     tr.object_id  =  x.ID
+                            and     tt.taxonomy = 'tema_govpergunta'
+                          ) ";	
+	}
+	
 	if (isset($sortfields[$sortby])) {
         $sortfield = $sortfields[$sortby];
     } else {
@@ -70,6 +98,8 @@ function wp_govpergunta_get_Contribuicoes($args){
 				WHERE   
 					post_type = '".WPGOVP_TYPE_POST."'
 					$filter 
+					$filtercategoria
+					$filtertema
 				ORDER	
 					by 	$sortfield $order";
     
