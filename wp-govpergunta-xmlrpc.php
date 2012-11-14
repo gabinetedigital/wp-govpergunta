@@ -52,7 +52,7 @@ function wp_govpergunta_get_Contribuicoes($args){
                             from    wp_terms t
                                     inner join wp_term_taxonomy tt on t.term_id = tt.term_id
                                     inner join wp_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id 
-                            where   t.slug = ". $filtercategory ." 
+                            where   t.slug = '". $filtercategory ."' 
                             and     tr.object_id  =  x.ID
                             and     tt.taxonomy = 'category'
                           ) ";	
@@ -65,7 +65,7 @@ function wp_govpergunta_get_Contribuicoes($args){
                             from    wp_terms t
                                     inner join wp_term_taxonomy tt on t.term_id = tt.term_id
                                     inner join wp_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id 
-                            where   t.slug = ". $filterterm ." 
+                            where   t.slug = '". $filterterm ."' 
                             and     tr.object_id  =  x.ID
                             and     tt.taxonomy = 'tema_govpergunta'
                           ) ";	
