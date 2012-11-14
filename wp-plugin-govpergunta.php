@@ -121,7 +121,7 @@ $prefix = 'wp_govpergunta_';
 
 global $wpdb;
 
-$results = $wpdb->get_results("select wp.ID as id, wp.post_title as title from wp_posts wp inner join wp_postmeta wpm on wp.id = wpm.post_id where wp.post_type = 'contrib_govpergunta' and wpm.meta_key='wp_govpergunta_contribuicao_relacinada' and wpm.meta_value='PRINCIPAL'");
+$results = $wpdb->get_results("select wp.ID as id, wp.post_title as title from wp_posts wp inner join wp_postmeta wpm on wp.id = wpm.post_id where wp.post_type = 'contrib_govpergunta' and wpm.meta_key='wp_govpergunta_contribuicao_relacionada' and wpm.meta_value='PRINCIPAL'");
 
 $combo_contrib = array();
 $combo_contrib["PRINCIPAL"] = "CONTRIBUICAO PRINCIPAL";
