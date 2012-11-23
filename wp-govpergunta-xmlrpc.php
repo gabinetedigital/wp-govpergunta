@@ -77,14 +77,14 @@ function wp_govpergunta_get_Contribuicoes($args){
         $sortfield = 'contrib_'.WPGOVP_TYPE_POST_campo2.'';
     }						
 
-	$sql = "	SELECT 	x.*
+	$sql = "	SELECT 	x.*,
+						(SELECT meta_value FROM wp_postmeta where meta_key='".WPGOVP_TYPE_POST_campo4."' and x.id = post_id ) contrib_".WPGOVP_TYPE_POST_campo4."
 				FROM 	(
 						SELECT 
 							p.*, 
         					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo1."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo1.", 
         					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo2."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo2.",  
         					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo3."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo3.",
-        					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo4."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo4.",
         					GROUP_CONCAT(IF(m.meta_key='".WPGOVP_TYPE_POST_campo5."', m.meta_value, NULL)) contrib_".WPGOVP_TYPE_POST_campo5."
 						FROM    
 							wp_posts p 
